@@ -17,11 +17,10 @@ if (mode !== 'dev' && mode !== 'prod') {
 
 logger.info(`Modo seleccionado: ${mode}`);
 
-const envPath = mode === 'dev' ? './.env.development' : './.env.production';
+const envPath = mode === 'dev' ? './.env.dev' : './.env.prod';
 
 config({ path: envPath });
 
-// Agrega la depuración
 console.log('MONGO_URL:', process.env.MONGO_URL);
 console.log('JWT_KEY:', process.env.JWT_KEY);
 console.log('PORT:', process.env.PORT);
@@ -36,3 +35,4 @@ export default {
     },
   },
 };
+config({ path: envPath });
