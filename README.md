@@ -2,21 +2,21 @@
 AdoptMe is a backend application designed to manage pet adoptions. It provides a set of endpoints for handling users, pets, adoption lists, and related data.
 
 ## Technologies Used
-    Node.js
-    Express
-    MongoDB
-    Docker
-    Swagger
-    Mocha y Chai
-    JWT
-    Bcrypt
-    Multer
-    Faker
+-Node.js
+-Express
+-MongoDB
+-Docker
+-Swagger
+-Mocha y Chai
+-JWT
+-Bcrypt
+-Multer
+-Faker
 
 ## Requirements
-    Node.js (minimum recommended version: 14)
-    Docker and Docker Compose
-    MongoDB (local or cloud instance, such as MongoDB Atlas)
+-Node.js (minimum recommended version: 14)
+-Docker and Docker Compose
+-MongoDB (local or cloud instance, such as MongoDB Atlas)
 
 ## Docker Image
 You can find the Docker image for AdoptMe on Docker Hub:
@@ -27,16 +27,16 @@ Run the application in Docker:
 docker run -p 8080:8080 itsPath/adoptme
 ```
 ## Installation
-    Clone the project repository:
+Clone the project repository:
 ```bash
 git clone https://github.com/itsPatH/AdoptMe.git
 cd AdoptMe
 ```
-    Install dependencies:
+Install dependencies:
 ```bash
 npm install
 ```
-    Create a .env file in the root directory and configure the required environment variables.
+Create a .env file in the root directory and configure the required environment variables.
 ## Available Endpoints
 | Method | Endpoint             | Description                                 |
 |--------|----------------------|---------------------------------------------|
