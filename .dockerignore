@@ -1,5 +1,8 @@
 node_modules
 Dockerfile
+.env.dev
+.env.prod
+.env.template
 .dockerignore
 .gitignore
 .env
