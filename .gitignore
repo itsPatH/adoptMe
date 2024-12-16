@@ -1,3 +1,7 @@
 node_modules
 .env
 /test
+.gitignore
+.env.dev
+.env.prod
+.env.template
