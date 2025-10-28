@@ -6,14 +6,14 @@ const requester = supertest('http://localhost:8080');
 
 describe('AdoptMe API Tests', () => {
     describe('Adoptions Endpoints', () => {
-        it('GET /adoptions - Should retrieve all adoptions', async () => {
+        it('GET /adoptions - Should get all adoptions', async () => {
             const response = await requester.get('/api/adoptions/');
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('status', 'success');
             expect(response.body.payload).to.be.an('array');
         });
 
-        it('GET /adoptions/:aid - Should retrieve an adoption by ID', async () => {
+        it('GET /adoptions/:aid - Should get an adoption by ID', async () => {
             const adoptionId = '673096f40f50baab1e0e3b7c';
             const response = await requester.get(`/api/adoptions/${adoptionId}`);
             if (response.status === 404) {
@@ -26,7 +26,7 @@ describe('AdoptMe API Tests', () => {
     });
 
     describe('Pets Endpoints', () => {
-        it('GET /pets - Should retrieve all pets', async () => {
+        it('GET /pets - Should get all pets', async () => {
             const response = await requester.get('/api/pets');
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('payload').that.is.an('array');
@@ -54,13 +54,13 @@ describe('AdoptMe API Tests', () => {
     });
 
     describe('Users Endpoints', () => {
-        it('GET /users - Should retrieve all users', async () => {
+        it('GET /users - Should get all users', async () => {
             const response = await requester.get('/api/users');
             expect(response.status).to.equal(200);
             expect(response.body.payload).to.be.an('array');
         });
 
-        it('GET /users/:uid - Should retrieve a user by ID', async () => {
+        it('GET /users/:uid - Should get a user by ID', async () => {
             const userId = '66fd5e6f760839f44ce5d564';
             const response = await requester.get(`/api/users/${userId}`);
             if (response.status === 404) {
@@ -88,7 +88,7 @@ describe('AdoptMe API Tests', () => {
     });
 
     describe('Mocking Data Endpoints', () => {
-        it('GET /adoptions/mockingpets - Should retrieve mock pets', async () => {
+        it('GET /adoptions/mockingpets - Should get mock pets', async () => {
             const response = await requester.get('/api/mocks/mockingpets');
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');

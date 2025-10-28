@@ -1,52 +1,46 @@
-import PetDTO from "../dto/Pet.dto.js";
-import { petsService } from "../services/index.js"
-import __dirname from "../utils/index.js";
+import Pet from '../dao/models/Pet.js';
 
-const getAllPets = async(req,res)=>{
-    const pets = await petsService.getAll();
-    res.send({status:"success",payload:pets})
-}
+/**
+ * @swagger
+ * tags:
+ *   name: Pets
+ *   description: Gestión de mascotas
+ */
+const getAllPets = async (req, res) => {
+  const pets = await Pet.find();
+  res.json(pets);
+};
 
-const createPet = async(req,res)=> {
-    const {name,specie,birthDate} = req.body;
-    if(!name||!specie||!birthDate) return res.status(400).send({status:"error",error:"Incomplete values"})
-    const pet = PetDTO.getPetInputFrom({name,specie,birthDate});
-    const result = await petsService.create(pet);
-    res.send({status:"success",payload:result})
-}
+const getPet = async (req, res) => {
+  const { pid } = req.params;
+  const pet = await Pet.findById(pid);
+  if (!pet) return res.status(404).json({ error: 'Pet not found' });
+  res.json(pet);
+};
 
-const updatePet = async(req,res) =>{
-    const petUpdateBody = req.body;
-    const petId = req.params.pid;
-    const result = await petsService.update(petId,petUpdateBody);
-    res.send({status:"success",message:"pet updated"})
-}
+const createPet = async (req, res) => {
+  const pet = await Pet.create(req.body);
+  res.status(201).json(pet);
+};
 
-const deletePet = async(req,res)=> {
-    const petId = req.params.pid;
-    const result = await petsService.delete(petId);
-    res.send({status:"success",message:"pet deleted"});
-}
+const updatePet = async (req, res) => {
+  const { pid } = req.params;
+  const pet = await Pet.findByIdAndUpdate(pid, req.body, { new: true });
+  if (!pet) return res.status(404).json({ error: 'Pet not found' });
+  res.json(pet);
+};
 
-const createPetWithImage = async(req,res) =>{
-    const file = req.file;
-    const {name,specie,birthDate} = req.body;
-    if(!name||!specie||!birthDate) return res.status(400).send({status:"error",error:"Incomplete values"})
-    console.log(file);
-    const pet = PetDTO.getPetInputFrom({
-        name,
-        specie,
-        birthDate,
-        image:`${__dirname}/../public/img/${file.filename}`
-    });
-    console.log(pet);
-    const result = await petsService.create(pet);
-    res.send({status:"success",payload:result})
-}
+const deletePet = async (req, res) => {
+  const { pid } = req.params;
+  const pet = await Pet.findByIdAndDelete(pid);
+  if (!pet) return res.status(404).json({ error: 'Pet not found' });
+  res.json({ message: 'Pet deleted' });
+};
+
 export default {
-    getAllPets,
-    createPet,
-    updatePet,
-    deletePet,
-    createPetWithImage
-}
+  getAllPets,
+  getPet,
+  createPet,
+  updatePet,
+  deletePet,
+};

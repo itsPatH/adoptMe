@@ -1,6 +1,9 @@
 import { config } from "dotenv";
 import { Command } from "commander";
 import logger from "../services/logger.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const appProgram = new Command();
 
@@ -19,8 +22,6 @@ logger.info(`Modo seleccionado: ${mode}`);
 
 const envPath = mode === 'dev' ? './.env.dev' : './.env.prod';
 
-config({ path: envPath });
-
 console.log('MONGO_URL:', process.env.MONGO_URL);
 console.log('JWT_KEY:', process.env.JWT_KEY);
 console.log('PORT:', process.env.PORT);
@@ -33,6 +34,7 @@ export default {
     JWT: {
       KEY: process.env.JWT_KEY,
     },
+    PORT: process.env.PORT || 8080,
   },
 };
 config({ path: envPath });

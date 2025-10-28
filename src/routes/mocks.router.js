@@ -1,48 +1,56 @@
-import express from 'express';
-import { generatePets } from '../mocks/mockingPets.js';
-import { generateUsers } from '../mocks/mockingUsers.js';
-import User from '../dao/models/User.js';
-import Pet from '../dao/models/Pet.js';
+import { Router } from 'express';
+import mocksController from '../controllers/mocks.controller.js';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/mockingpets', (req, res) => {
-    const pets = generatePets(100);
-    res.status(200).json(pets);
-});
+/**
+ * @swagger
+ * /mocks/mockingusers:
+ *   get:
+ *     summary: Generate 50 fake users
+ *     tags:
+ *       - Mocks
+ *     responses:
+ *       200:
+ *         description: List of fake users
+ */
+router.get('/mockingusers', mocksController.generateMockUsers);
 
-router.get('/mockingusers', (req, res) => {
-    const users = generateUsers(50);
-    res.status(200).json(users);
-});
+/**
+ * @swagger
+ * /mocks/mockingpets:
+ *   get:
+ *     summary: Generate 100 fake pets
+ *     tags:
+ *       - Mocks
+ *     responses:
+ *       200:
+ *         description: List of fake pets
+ */
+router.get('/mockingpets', mocksController.generateMockPets);
 
-router.post('/generateData', async (req, res) => {
-    const { users, pets } = req.body;
-
-    if (!users || !pets) {
-        return res
-            .status(400)
-            .json({ error: 'Both "users" and "pets" parameters are required' });
-    }
-
-    try {
-        const generatedUsers = generateUsers(users);
-        const generatedPets = generatePets(pets);
-        const insertedUsers = await User.insertMany(generatedUsers);
-        const insertedPets = await Pet.insertMany(generatedPets);
-
-        res.json({
-            message: 'Data generated successfully',
-            insertedUsers: insertedUsers.length,
-            insertedPets: insertedPets.length,
-        });
-    } catch (error) {
-        console.error('Error generating or inserting data:', error); 
-        res.status(500).json({
-            error: 'Error generating or inserting data',
-            details: error.message,
-        });
-    }
-});
+/**
+ * @swagger
+ * /mocks/generateData:
+ *   post:
+ *     summary: Generate fake users and pets in the DB
+ *     tags:
+ *       - Mocks
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               users:
+ *                 type: integer
+ *               pets:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Data generated
+ */
+router.post('/generateData', mocksController.generateData);
 
 export default router;

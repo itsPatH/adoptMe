@@ -3,10 +3,28 @@ import sessionsController from '../controllers/sessions.controller.js';
 
 const router = Router();
 
-router.post('/register',sessionsController.register);
-router.post('/login',sessionsController.login);
-router.get('/current',sessionsController.current);
-router.get('/unprotectedLogin',sessionsController.unprotectedLogin);
-router.get('/unprotectedCurrent',sessionsController.unprotectedCurrent);
+/**
+ * @swagger
+ * /sessions/login:
+ *   post:
+ *     summary: User login
+ *     tags:
+ *       - Sessions
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User logged in
+ */
+router.post('/login', sessionsController.login);
 
 export default router;

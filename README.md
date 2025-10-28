@@ -39,14 +39,14 @@ npm install
     Create a .env file in the root directory and configure the required environment variables.
 ## Available Endpoints
 Method	Endpoint	Description
-GET	/adoptions	Retrieve all adoptions
-GET	/adoptions/:aid	Retrieve adoption by ID
+GET	/adoptions	Get all adoptions
+GET	/adoptions/:aid	Get adoption by ID
 POST	/adoptions/:uid/:pid	Create a new adoption
-GET	/pets	Retrieve all pets
+GET	/pets	Get all pets
 POST	/pets	Create a new pet
 PUT	/pets/:pid	Update pet details by ID
 DELETE	/pets/:pid	Delete a pet by ID
-GET	/users	Retrieve all users
+GET	/users	Get all users
 POST	/users	Create a new user
 PUT	/users/:uid	Update user details by ID
 DELETE	/users/:uid	Delete a user by ID
