@@ -10,11 +10,14 @@ const options = {
       version: '1.0.0',
       description: 'API para la gestión de adopciones de mascotas',
     },
-    servers: [
-      { url: 'http://localhost:8080/api' },
+    servers: [{ 
+      url: process.env.NODE_ENV === "prod" 
+             ? "https://adoptme-wrun.onrender.com/api" 
+             : "http://localhost:8080/api"}
+             
     ],
   },
-  apis: ['./src/routes/*.router.js'],
+  apis: ["./src/docs/**/*.yaml", "./src/routes/*.js"],
 };
 const specs = swaggerJsDoc(options);
 
