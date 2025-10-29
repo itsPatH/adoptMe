@@ -30,6 +30,7 @@ if (!["dev", "prod"].includes(mode)) {
   process.exit(1);
 }
 
+// Carga de variables de entorno según modo
 dotenv.config({ path: mode === "dev" ? ".env.dev" : ".env.prod" });
 const PORT = process.env.PORT || 8080;
 const MONGO_URL = process.env.MONGO_URL;
@@ -56,19 +57,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Rutas
-app.use("/api/users", usersRouter);
-app.use("/api/pets", petsRouter);
-app.use("/api/adoptions", adoptionsRouter);
-app.use("/api/sessions", sessionsRouter);
-app.use("/api/mocks", mocksRouter);
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(specs));
+// ------------------------
+// Rutas con prefijo /api
+// ------------------------
+const API_PREFIX = "/api";
+
+app.use(`${API_PREFIX}/users`, usersRouter);
+app.use(`${API_PREFIX}/pets`, petsRouter);
+app.use(`${API_PREFIX}/adoptions`, adoptionsRouter);
+app.use(`${API_PREFIX}/sessions`, sessionsRouter);
+app.use(`${API_PREFIX}/mocks`, mocksRouter);
+
+// Documentación Swagger
+app.use(`${API_PREFIX}/docs`, swaggerUi.serve, swaggerUi.setup(specs));
+
+// ------------------------
+// Rutas “limpias” en producción
+// ------------------------
+if (mode === "prod") {
+  app.use("/users", usersRouter);
+  app.use("/pets", petsRouter);
+  app.use("/adoptions", adoptionsRouter);
+  app.use("/sessions", sessionsRouter);
+  app.use("/mocks", mocksRouter);
+}
 
 // Error handler (al final)
 app.use(errorHandler);
 
 // ------------------------
-// MongoDB
+// Conexión a MongoDB
 // ------------------------
 mongoose
   .connect(MONGO_URL)
@@ -85,3 +103,5 @@ app.listen(PORT, "0.0.0.0", () => {
   logger.info(`🚀 Server running on port ${PORT} (${mode})`);
   logger.info(`📘 Swagger disponible en /api/docs`);
 });
+
+export default app;
