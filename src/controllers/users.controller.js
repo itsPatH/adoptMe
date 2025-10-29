@@ -1,5 +1,5 @@
 import User from '../dao/models/User.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const saltRounds = 10;
 
