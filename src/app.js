@@ -12,6 +12,7 @@ import sessionsRouter from './routes/sessions.router.js';
 import config from './config/config.js';
 import logger from './services/logger.js';
 import { swaggerUi, specs } from './config/swagger.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -60,3 +61,21 @@ app.listen(PORT, '0.0.0.0', () => {
   logger.info(`🚀 Server running on port ${PORT}`);
   logger.info(`📘 Swagger available at /api/docs`);
 });
+
+//CORS
+const allowedOrigins = [
+  'https://adoptme-wrun.onrender.com',
+];
+
+app.use(cors({
+  origin: function(origin, callback){
+    // Permite requests sin origen (por ejemplo Postman o cURL)
+    if(!origin) return callback(null, true);
+
+    if(allowedOrigins.includes(origin)){
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  }
+}));
