@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: adoptme-api
+    env: node
+    region: oregon  # puedes cambiarlo a "frankfurt" si prefieres Europa
+    buildCommand: pnpm install --no-frozen-lockfile
+    startCommand: pnpm start
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: MONGO_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: JWT_COOKIE
+        sync: false
+    plan: free
