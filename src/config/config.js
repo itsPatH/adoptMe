@@ -1,40 +1,35 @@
-import { config } from "dotenv";
-import { Command } from "commander";
-import logger from "../services/logger.js";
 import dotenv from "dotenv";
-dotenv.config();
+import logger from "../services/logger.js";
 
+// Determina el entorno: 'development' o 'production'
+const ENV = process.env.NODE_ENV || "production";
 
-const appProgram = new Command();
+// Define la ruta del archivo .env según el entorno
+const envPath = ENV === "development" ? "./.env.dev" : "./.env.prod";
 
-appProgram.requiredOption('-m, --mode <mode>', 'Server mode', 'prod');
+// Carga variables de entorno
+dotenv.config({ path: envPath });
 
-appProgram.parse();
-
-const mode = appProgram.opts().mode;
-
-if (mode !== 'dev' && mode !== 'prod') {
-  logger.fatal(`Modo no válido: ${mode}. Debe ser 'dev' o 'prod'.`);
+// Validación básica de variables críticas
+if (!process.env.MONGO_URL) {
+  logger.fatal("❌ MONGO_URL no definida en el entorno.");
   process.exit(1);
 }
+if (!process.env.JWT_KEY) {
+  logger.fatal("❌ JWT_KEY no definida en el entorno.");
+  process.exit(1);
+}
+if (!process.env.PORT) {
+  logger.warn("⚠️ PORT no definida. Usando 8080 por defecto.");
 
-logger.info(`Modo seleccionado: ${mode}`);
+}
 
-const envPath = mode === 'dev' ? './.env.dev' : './.env.prod';
-
-console.log('MONGO_URL:', process.env.MONGO_URL);
-console.log('JWT_KEY:', process.env.JWT_KEY);
-console.log('PORT:', process.env.PORT);
-
+// Exporta configuración centralizada
 export default {
+  env: ENV,
   app: {
-    MONGO: {
-      URL: process.env.MONGO_URL,
-    },
-    JWT: {
-      KEY: process.env.JWT_KEY,
-    },
+    MONGO: { URL: process.env.MONGO_URL },
+    JWT: { KEY: process.env.JWT_KEY },
     PORT: process.env.PORT || 8080,
   },
 };
-config({ path: envPath });

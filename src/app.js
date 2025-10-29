@@ -23,13 +23,17 @@ const PORT = process.env.PORT || config.app.PORT || 8080;
 // Conexión a MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.app.MONGO.URL);
+    const mongoURI = process.env.MONGO_URL || config.app.MONGO.URL;
+
+    if (!mongoURI) throw new Error("Falta la variable MONGO_URL");
+
+    await mongoose.connect(mongoURI);
     console.log('✅ Conectado a MongoDB');
   } catch (error) {
-    console.error('❌ Error conectando a MongoDB:', error);
-    process.exit(1);
+    console.error('❌ Error conectando a MongoDB:', error.message);
   }
 };
+
 connectDB();
 
 // Middlewares

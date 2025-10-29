@@ -5,14 +5,14 @@ const customLevelOptions = {
     levels:{
         fatal:0,
         error:1,
-        warning:2,
+        warn:2,
         info:3,
         debug:4
     },
     colors:{
         fatal:'inverse yellow',
         error:'bold red',
-        warning:'yellow',
+        warn:'yellow',
         info:'blue',
         debug:'rainbow',
     }
@@ -35,5 +35,7 @@ const addLogger = (req,res,next) => {
     req.logger = logger
     req.logger.info(`${req.method} on ${req.url} - ${new Date().toLocaleDateString}`)
 }
+logger.warn = (msg) => logger.log('warning', msg);
+
 
 export default logger;

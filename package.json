@@ -4,12 +4,12 @@
   "description": "Adopt Me",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "start": "node src/app.js",
-    "prod": "node src/app.js -m prod",
-    "dev": "nodemon src/app.js",
-    "test": "npm start & wait-on http://localhost:8080 && mocha src/test/supertest.test.js"
-  },
+ "scripts": {
+  "start": "node src/app.js",
+  "prod": "node src/app.js -m prod",
+  "dev": "nodemon src/app.js -m dev"
+}
+,
   "keywords": [],
   "author": "Patricia Herrera",
   "license": "ISC",
@@ -44,7 +44,7 @@
     "wait-on": "^9.0.1"
   },
   "engines": {
-    "node": ">=18.20.0"
+    "node": "22.20.0 "
   },
   "repository": {
     "type": "git",
