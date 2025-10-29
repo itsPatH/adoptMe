@@ -17,20 +17,19 @@ dotenv.config();
 
 const app = express();
 
-// 👇 Usa el valor centralizado de config
-const PORT = config.app.PORT || 8080;
+// ⚙️ Render usa process.env.PORT automáticamente
+const PORT = process.env.PORT || config.app.PORT || 8080;
 
-// Conexión a Mongo
+// Conexión a MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(config.app.MONGO.URL);
-    console.log('Conectado a MongoDB');
+    console.log('✅ Conectado a MongoDB');
   } catch (error) {
-    console.error('Error conectando a MongoDB:', error);
+    console.error('❌ Error conectando a MongoDB:', error);
     process.exit(1);
   }
 };
-
 connectDB();
 
 // Middlewares
@@ -38,7 +37,6 @@ app.use(express.static(`${__dirname}/public`));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(errorHandler);
 
 // Rutas
 app.use('/api/users', usersRouter);
@@ -46,9 +44,15 @@ app.use('/api/pets', petsRouter);
 app.use('/api/adoptions', adoptionsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/mocks', mocksRouter);
+
+// 📘 Documentación Swagger
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+// Error handler (al final siempre)
+app.use(errorHandler);
+
 // Servidor
-const server = app.listen(PORT, () => {
-  logger.info(`✅ Server is listening on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  logger.info(`🚀 Server running on port ${PORT}`);
+  logger.info(`📘 Swagger available at /api/docs`);
 });
