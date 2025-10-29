@@ -1,23 +1,28 @@
-import swaggerJsDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+// src/config/swagger.js
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+
+const isProd = process.env.NODE_ENV === "production";
 
 const options = {
   definition: {
-    openapi: '3.0.1',
+    openapi: "3.0.0",
     info: {
-      title: 'AdoptMe API',
-      version: '1.0.0',
-      description: 'API para la gestión de adopciones de mascotas',
+      title: "Adopt Me API",
+      version: "1.0.0",
+      description: "API para gestión de adopciones y usuarios"
     },
-    servers: [{ 
-      url: process.env.NODE_ENV === "prod" 
-             ? "https://adoptme-wrun.onrender.com/api" 
-             : "http://localhost:8080/api"}
-             
-    ],
+    servers: [
+      {
+        url: isProd
+          ? "https://adoptme-wrun.onrender.com"
+          : "http://localhost:8080"
+      }
+    ]
   },
-  apis: ["./src/docs/**/*.yaml", "./src/routes/*.js"],
+  apis: ["./src/routes/*.js"]
 };
+
 const specs = swaggerJsDoc(options);
 
-export { swaggerUi, specs }; 
+export { swaggerUi, specs };
