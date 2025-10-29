@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/app.js",
     "prod": "node src/app.js -m prod",
-    "dev": "nodemon src/app.js -m dev",
+    "dev": "nodemon src/app.js",
     "test": "npm start & wait-on http://localhost:8080 && mocha src/test/supertest.test.js"
   },
   "keywords": [],
@@ -44,7 +44,7 @@
     "wait-on": "^9.0.1"
   },
   "engines": {
-    "node": ">=20.17.0"
+    "node": ">=18.20.0"
   },
   "repository": {
     "type": "git",
